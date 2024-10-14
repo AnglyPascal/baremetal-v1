@@ -3,7 +3,7 @@
 
 #include <stdarg.h>
 
-#define NULL ((void *) 0)
+#define NULL ((void *)0)
 
 /* do_print -- the device-independent guts of printf */
 void do_print(void (*putch)(char), const char *fmt, va_list va);

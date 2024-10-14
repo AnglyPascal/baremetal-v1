@@ -7,44 +7,41 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#define DEVICE "/dev/ttyACM0"   /* TTY device for the micro:bit */
+#define DEVICE "/dev/ttyACM0" /* TTY device for the micro:bit */
 
 int main(int argc, char **argv)
 {
-    FILE *fin, *fout;
+	FILE *fin, *fout;
 
-    if (argc != 2) {
-        fprintf(stderr, "Usage: squirt file\n");
-        exit(2);
-    }
+	if (argc != 2) {
+		fprintf(stderr, "Usage: squirt file\n");
+		exit(2);
+	}
 
-    fin = fopen(argv[1], "r");
-    if (fin == NULL) {
-        fprintf(stderr, "squirt: couldn't open %s for reading\n", argv[1]);
-        exit(1);
-    }
+	fin = fopen(argv[1], "r");
+	if (fin == NULL) {
+		fprintf(stderr, "squirt: couldn't open %s for reading\n", argv[1]);
+		exit(1);
+	}
 
-    fout = fopen(DEVICE, "wb");
-    if (fout == NULL) {
-        fprintf(stderr, "squirt: couldn't open %s for writing\n", DEVICE);
-        exit(1);
-    }
+	fout = fopen(DEVICE, "wb");
+	if (fout == NULL) {
+		fprintf(stderr, "squirt: couldn't open %s for writing\n", DEVICE);
+		exit(1);
+	}
 
-    while (1) {
-        int ch = fgetc(fin);
+	while (1) {
+		int ch = fgetc(fin);
 
-        if (ch == EOF) break;
+		if (ch == EOF)
+			break;
 
-        if (ch == '\n')
-            fputc('\r', fout);
-        else
-            fputc(ch, fout);
+		if (ch == '\n')
+			fputc('\r', fout);
+		else
+			fputc(ch, fout);
 
-        fflush(fout);
-        usleep(10000);
-    }
+		fflush(fout);
+		usleep(10000);
+	}
 }
-
-
-       
-        

@@ -3,7 +3,7 @@
 
 typedef unsigned char byte;
 
-#define NULL ((void *) 0)
+#define NULL ((void *)0)
 
 /* Standard pids */
 #define HARDWARE -1
@@ -24,30 +24,38 @@ typedef unsigned char byte;
 #define ANY -1
 
 /* Possible priorities */
-#define P_HANDLER 0             /* Interrupt handler */
-#define P_HIGH 1                /* Responsive */
-#define P_LOW 2                 /* Normal */
-#define P_IDLE 3                /* The idle process */
-#define NPRIO 3                 /* Number of non-idle priorities */
+#define P_HANDLER 0 /* Interrupt handler */
+#define P_HIGH 1 /* Responsive */
+#define P_LOW 2 /* Normal */
+#define P_IDLE 3 /* The idle process */
+#define NPRIO 3 /* Number of non-idle priorities */
 
-typedef struct {                /* 16 bytes */
-    unsigned short type;        /* Type of message */
-    short sender;               /* PID of sender */
-    union {                     /* An integer, a pointer, or four bytes */
-        int int1; void *ptr1;
-        struct { byte byte1, byte2, byte3, byte4; };
-    };
-    union { int int2; void *ptr2; }; /* Another integer or pointer */
-    union { int int3; void *ptr3; }; /* A third integer or pointer */
+typedef struct { /* 16 bytes */
+	unsigned short type; /* Type of message */
+	short sender; /* PID of sender */
+	union { /* An integer, a pointer, or four bytes */
+		int int1;
+		void *ptr1;
+		struct {
+			byte byte1, byte2, byte3, byte4;
+		};
+	};
+	union {
+		int int2;
+		void *ptr2;
+	}; /* Another integer or pointer */
+	union {
+		int int3;
+		void *ptr3;
+	}; /* A third integer or pointer */
 } message;
-
 
 /* microbian.c */
 
 /* start -- create process that will run when init returns; return PID */
 int start(char *name, void (*body)(int), int arg, int stksize);
 
-#define STACK 1024              /* Default stack size */
+#define STACK 1024 /* Default stack size */
 
 /* SYSTEM CALLS */
 
@@ -91,12 +99,11 @@ void badmesg(int type);
 
 /* assert -- check assertion and panic if false */
 #define assert(p) \
-    if (!(p)) panic("File %s, line %d: assertion %s failed", \
-                    __FILE__, __LINE__, #p)
+	if (!(p))       \
+	panic("File %s, line %d: assertion %s failed", __FILE__, __LINE__, #p)
 
 /* spin -- flash the seven stars of death forever */
 void spin(void);
-
 
 /* serial.c */
 void serial_putc(char ch);
@@ -117,8 +124,8 @@ int i2c_read_reg(int bus, int addr, int cmd);
 void i2c_write_reg(int bus, int addr, int cmd, int val);
 void i2c_read_bytes(int bus, int addr, int cmd, byte *buf, int n);
 void i2c_write_bytes(int bus, int addr, int cmd, byte *buf, int n);
-int i2c_xfer(int bus, int kind, int addr,
-             byte *buf1, int n1, byte *buf2, int n2);
+int i2c_xfer(int bus, int kind, int addr, byte *buf1, int n1,
+						 byte *buf2, int n2);
 void i2c_init(int bus);
 
 /* radio.c */
